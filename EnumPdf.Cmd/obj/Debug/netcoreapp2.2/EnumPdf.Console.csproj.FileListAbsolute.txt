@@ -1,0 +1,4 @@
+C:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Console\obj\Debug\netcoreapp2.2\EnumPdf.Console.csprojAssemblyReference.cache
+C:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Console\obj\Debug\netcoreapp2.2\EnumPdf.Console.csproj.CoreCompileInputs.cache
+C:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Console\obj\Debug\netcoreapp2.2\EnumPdf.Console.AssemblyInfoInputs.cache
+C:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Console\obj\Debug\netcoreapp2.2\EnumPdf.Console.AssemblyInfo.cs

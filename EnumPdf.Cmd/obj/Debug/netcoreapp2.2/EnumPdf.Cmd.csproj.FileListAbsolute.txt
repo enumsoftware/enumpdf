@@ -1,0 +1,14 @@
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\bin\Debug\netcoreapp2.2\EnumPdf.Cmd.deps.json
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\bin\Debug\netcoreapp2.2\EnumPdf.Cmd.runtimeconfig.json
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\bin\Debug\netcoreapp2.2\EnumPdf.Cmd.runtimeconfig.dev.json
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\bin\Debug\netcoreapp2.2\EnumPdf.Cmd.dll
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\bin\Debug\netcoreapp2.2\EnumPdf.Cmd.pdb
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\bin\Debug\netcoreapp2.2\EnumPdf.dll
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\bin\Debug\netcoreapp2.2\EnumPdf.pdb
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\obj\Debug\netcoreapp2.2\EnumPdf.Cmd.csprojAssemblyReference.cache
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\obj\Debug\netcoreapp2.2\EnumPdf.Cmd.csproj.CoreCompileInputs.cache
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\obj\Debug\netcoreapp2.2\EnumPdf.Cmd.AssemblyInfoInputs.cache
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\obj\Debug\netcoreapp2.2\EnumPdf.Cmd.AssemblyInfo.cs
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\obj\Debug\netcoreapp2.2\EnumPdf.Cmd.csproj.CopyComplete
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\obj\Debug\netcoreapp2.2\EnumPdf.Cmd.dll
+c:\dev\enum\enum\libraries\aspnet\enum-pdf\EnumPdf.Cmd\obj\Debug\netcoreapp2.2\EnumPdf.Cmd.pdb
