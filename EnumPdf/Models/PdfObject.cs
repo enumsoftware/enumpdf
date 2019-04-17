@@ -11,7 +11,9 @@ namespace EnumPdf.Models
     private string type;
     private int objectNumber;
     private int generation;
-    private List<string> keys = new List<string>();
+    // private List<string> keys = new List<string>();
+    private Dictionary<string, object> dictionary = new Dictionary<string, object>();
+
     private string stream;
 
     public PdfObject(int objectNumber, int generation, string type)
@@ -27,47 +29,25 @@ namespace EnumPdf.Models
       this.generation = generation;
     }
 
+    public PdfObject()
+    {
+    }
+
     public PdfObject(string type)
     {
       this.type = type;
+      this.dictionary.Add("Type", type);
     }
 
-    public PdfObject(string key, PdfObject obj)
+    public void AddKey(string key, object value)
     {
-      AddObjectKey(key, obj);
-    }
-
-    public void AddKey(string key, string value)
-    {
-      keys.Add($"/{key} {value}");
+      dictionary.Add(key, value);
     }
 
     // Reference in format of 5 0 R
-    public string GetPdfReference()
+    public string PdfObjectReference()
     {
       return $"{objectNumber} {generation} R";
-    }
-
-    public void AddObjectKey(string key, PdfObject value)
-    {
-      var str = value.BuildObject().ToString();
-      keys.Add($"/{key}\n{str}");
-    }
-
-    public void AddObjectReferenceKey(string key, PdfObject value)
-    {
-      keys.Add("/" + key + " " + value.GetPdfReference());
-    }
-
-    public void AddObjectReferenceArrayKey(string key, params PdfObject[] values)
-    {
-      string finalVal = "/" + key + " [";
-      values.ToList().ForEach(m =>
-      {
-        finalVal = finalVal + m.GetPdfReference();
-      });
-      finalVal = finalVal + "]";
-      keys.Add(finalVal);
     }
 
     public void AddTextStream(string font, int fontSize, int xPos, int yPos, string text)
@@ -93,6 +73,11 @@ endstream
       ";
     }
 
+    public override string ToString()
+    {
+      return Build().ToString();
+    }
+
     public StringBuilder Build()
     {
       StringBuilder pdfObject = new StringBuilder();
@@ -109,29 +94,21 @@ endstream
 
     public StringBuilder BuildObject()
     {
-      StringBuilder pdfObject = new StringBuilder();
-      pdfObject.Append("<< ");
-      if (type != null)
+      StringBuilder sb = new StringBuilder();
+      sb.Append("<<");
+      dictionary.ToList().ForEach(keyValue =>
       {
-        pdfObject.Append("/Type /").Append(type).Append("\n");
-      }
-      foreach (string key in keys)
-      {
-        pdfObject.Append("     ").Append(key).Append("\n");
-      }
-      pdfObject.Append("  >>");
+        var key = keyValue.Key;
+        var value = keyValue.Key;
+        sb.Append($"/{key}{value}\n");
+      });
+      sb.Append(">>");
 
       if (stream != null)
       {
-        pdfObject.Append(stream);
+        sb.Append(stream);
       }
-
-      return pdfObject;
-    }
-
-    public string DebugTxt()
-    {
-      return Build().ToString();
+      return sb;
     }
   }
 }

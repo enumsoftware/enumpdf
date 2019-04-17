@@ -41,8 +41,6 @@ namespace EnumPdf.Cmd
 
       //   page.AddObjectReferenceKey("Parent", pages);
 
-
-
       //   Pdf pdf = new Pdf(root, pages, page, text);
 
       //   System.IO.DirectoryInfo di = new DirectoryInfo("pdf");

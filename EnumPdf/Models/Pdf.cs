@@ -24,7 +24,7 @@ namespace EnumPdf.Models
         pdf.Append(pdfObject.Build());
       }
 
-      pdf.Append("trailer\n  << /Root " + pdfObjects[0].GetPdfReference() + "\n   /Size "
+      pdf.Append("trailer\n  << /Root " + pdfObjects[0].PdfObjectReference() + "\n   /Size "
           + (pdfObjects.Count + 1) + "\n  >>\n" + "%%EOF");
 
       return pdf.ToString();

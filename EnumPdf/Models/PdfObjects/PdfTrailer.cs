@@ -11,11 +11,16 @@ namespace EnumPdf.Models
   //     fontNameObj.AddKey("Subtype", "/Type1");
   //     fontNameObj.AddKey("BaseFont", "/Times-Roman");
   //     PdfObject font = new PdfObject("Font", new PdfObject("F1", fontNameObj));
-  public class PdfCatalog : PdfObject
+  public class PdfTrailer : PdfObject
   {
-    public PdfCatalog(PdfObject pdfObject) : base("Catalog")
+    public PdfTrailer(PdfObject obj, int size)
     {
-      this.AddKey("Pages", pdfObject.PdfObjectReference());
+      this.AddKey("Size", size);
+      this.AddKey("Root", obj.PdfObjectReference());
     }
   }
 }
+
+
+//  pdf.Append("trailer\n  << /Root " + pdfObjects[0].GetPdfReference() + "\n   /Size "
+//           + (pdfObjects.Count + 1) + "\n  >>\n" + "%%EOF");
