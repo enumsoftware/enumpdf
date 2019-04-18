@@ -5,69 +5,65 @@ using EnumPdf.Models;
 
 namespace EnumPdf.Cmd
 {
-  class Program
+  public class Program
   {
     static void Main(string[] args)
     {
-      PdfFont font = new PdfFont();
-      Console.WriteLine(font.DebugTxt());
+      var mediaBox = new MediaBox(0, 0, 100, 200);
+      PdfFont font = new PdfFont("Times-Roman");
+      PdfText text = new PdfText("Hello World!");
 
-      PdfPage page = new PdfPage();
-      Console.WriteLine(font.DebugTxt());
+      var pages = new PdfPages();
+      var page = new PdfPage(pages, mediaBox);
+      page.AddContent(text);
+      pages.AddPage(page);
 
-      //   PdfObject fontName = new PdfObject("Font");
-      //   fontName.AddKey("Subtype", "/Type1");
-      //   fontName.AddKey("BaseFont", "/Times-Roman");
-      //   PdfObject font = new PdfObject("Font", new PdfObject("F1", fontName));
+      PdfCatalog catalog = new PdfCatalog(pages);
 
-      //   PdfObject text = new PdfObject(4, 0);
-      //   var hello = "Hello World";
-      //   text.AddKey("Length", Encoding.ASCII.GetByteCount(hello).ToString());
-      //   text.AddTextStream("F1", 18, 10, 50, "Hello World");
+      // Console.WriteLine(catalog.ToString());
+      // Console.WriteLine(pages.ToString());
+      // Console.WriteLine(page.ToString());
+      // Console.WriteLine(font.ToString());
+      // Console.WriteLine(text.ToString());
+      // Console.WriteLine(trailer.ToString());
 
-      //   PdfObject image = new PdfObject(5, 0);
-      //   var imageFile = File.ReadAllBytes("images/image.jpg");
-      //   image.AddKey("Length", imageFile.Length.ToString());
-      //   image.AddImageStream(imageFile, 20, 20);
 
-      //   PdfObject page = new PdfObject(3, 0, "Page");
-      //   page.AddObjectKey("Resources", font);
-      //   page.AddObjectReferenceKey("Contents", text);
+      Pdf pdf = new Pdf(
+        catalog,
+        pages,
+        page,
+        font,
+        text);
 
-      //   PdfObject pages = new PdfObject(2, 0, "Pages");
-      //   pages.AddKey("Count", "1");
-      //   pages.AddKey("MediaBox", "[0 0 300 144]");
-      //   pages.AddObjectReferenceArrayKey("Kids", page);
+      WriteFiles(pdf);
+    }
 
-      //   page.AddObjectReferenceKey("Parent", pages);
+    private static void WriteFiles(Pdf pdf)
+    {
+      DirectoryInfo di = new DirectoryInfo("pdf");
+      foreach (FileInfo file in di.GetFiles())
+      {
+        file.Delete();
+      }
 
-      //   Pdf pdf = new Pdf(root, pages, page, text);
+      var filename = "testfile";
+      var txtStream = File.CreateText($"pdf/{filename}.txt");
+      var stream = File.Create($"pdf/{filename}.pdf");
+      var pdfString = pdf.Build();
+      var bytes = Encoding.ASCII.GetBytes(pdfString);
+      var count = Encoding.ASCII.GetByteCount(pdfString);
 
-      //   System.IO.DirectoryInfo di = new DirectoryInfo("pdf");
+      var bla = pdfString.Split("\n");
+      foreach (var line in bla)
+      {
+        txtStream.WriteLine(line);
+      }
+      txtStream.Flush();
 
-      //   foreach (FileInfo file in di.GetFiles())
-      //   {
-      //     file.Delete();
-      //   }
+      stream.Write(bytes, 0, count);
+      stream.Flush();
 
-      //   var filename = Guid.NewGuid().ToString();
-      //   var txtStream = File.CreateText($"pdf/{filename}.txt");
-      //   var stream = File.Create($"pdf/{filename}.pdf");
-      //   var pdfString = pdf.Build();
-      //   var bytes = Encoding.ASCII.GetBytes(pdfString);
-      //   var count = Encoding.ASCII.GetByteCount(pdfString);
-
-      //   var bla = pdfString.Split("\n");
-      //   foreach (var line in bla)
-      //   {
-      //     txtStream.WriteLine(line);
-      //   }
-      //   txtStream.Flush();
-
-      //   stream.Write(bytes, 0, count);
-      //   stream.Flush();
-
-      //   Console.WriteLine("Done generating pdf");
+      Console.WriteLine("Done generating pdf");
     }
   }
 }

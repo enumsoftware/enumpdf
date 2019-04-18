@@ -13,11 +13,11 @@ namespace EnumPdf.Models
   //     PdfObject font = new PdfObject("Font", new PdfObject("F1", fontNameObj));
   public class PdfFont : PdfObject
   {
-    public PdfFont() : base("Font")
+    public PdfFont(string fontName) : base("Font")
     {
-      this.AddKey("Subtype", "/Type1");
-      this.AddKey("Name", "/F1");
-      this.AddKey("BaseFont", "/Times-Roman");
+      Dictionary.Add("Subtype", "/Type1");
+      Dictionary.Add("Name", $"/{ObjectNumber}"); // /name must be unique
+      Dictionary.Add("BaseFont", $"/{fontName}");
     }
   }
 }

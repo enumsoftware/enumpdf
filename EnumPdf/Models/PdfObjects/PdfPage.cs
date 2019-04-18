@@ -6,18 +6,18 @@ using System.Text;
 
 namespace EnumPdf.Models
 {
-
-  //  PdfObject fontNameObj = new PdfObject("Font");
-  //     fontNameObj.AddKey("Subtype", "/Type1");
-  //     fontNameObj.AddKey("BaseFont", "/Times-Roman");
-  //     PdfObject font = new PdfObject("Font", new PdfObject("F1", fontNameObj));
   public class PdfPage : PdfObject
   {
-    public PdfPage() : base("Font")
+    public PdfPage(PdfObject parent, MediaBox mediaBox) : base("Page")
     {
-      this.AddKey("Subtype", "/Type1");
-      this.AddKey("Name", "/F1");
-      this.AddKey("BaseFont", "/Times-Roman");
+      Dictionary.Add("Parent", parent.PdfReference());
+      Dictionary.Add("MediaBox", mediaBox);
+      // Dictionary.Add("Resources", "REFERENCE");
+    }
+
+    public void AddContent(PdfObject pdfObject)
+    {
+      Dictionary.Add("Contents", pdfObject.PdfReference());
     }
   }
 }

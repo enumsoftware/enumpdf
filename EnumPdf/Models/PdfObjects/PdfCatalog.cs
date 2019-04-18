@@ -13,9 +13,9 @@ namespace EnumPdf.Models
   //     PdfObject font = new PdfObject("Font", new PdfObject("F1", fontNameObj));
   public class PdfCatalog : PdfObject
   {
-    public PdfCatalog(PdfObject pdfObject) : base("Catalog")
+    public PdfCatalog(PdfPages pdfPages) : base("Catalog")
     {
-      this.AddKey("Pages", pdfObject.PdfObjectReference());
+      Dictionary.Add("Pages", pdfPages.PdfReference());
     }
   }
 }

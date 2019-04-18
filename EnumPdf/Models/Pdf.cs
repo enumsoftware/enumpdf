@@ -6,27 +6,25 @@ namespace EnumPdf.Models
 {
   public class Pdf
   {
-    private List<PdfObject> pdfObjects = new List<PdfObject>();
-
+    public string Version { get; set; } = "1.4";
+    public List<PdfObject> PdfObjects { get; set; } = new List<PdfObject>();
     public Pdf(params PdfObject[] objects)
     {
-      pdfObjects.AddRange(objects);
+      PdfObjects.AddRange(objects);
     }
-    
 
     public string Build()
     {
-      StringBuilder pdf = new StringBuilder();
-      pdf.Append("%PDF-1.1\n\n");
+      PdfTrailer trailer = new PdfTrailer(PdfObjects[0], PdfObjects.Count);
+      PdfObjects.Add(trailer);
 
-      foreach (PdfObject pdfObject in pdfObjects)
+      StringBuilder pdf = new StringBuilder();
+      pdf.Append($"%PDF-{Version}\n%%EOF\n\n");
+
+      foreach (PdfObject pdfObject in PdfObjects)
       {
         pdf.Append(pdfObject.Build());
       }
-
-      pdf.Append("trailer\n  << /Root " + pdfObjects[0].PdfObjectReference() + "\n   /Size "
-          + (pdfObjects.Count + 1) + "\n  >>\n" + "%%EOF");
-
       return pdf.ToString();
     }
   }

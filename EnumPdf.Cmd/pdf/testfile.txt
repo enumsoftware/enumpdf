@@ -1,0 +1,55 @@
+%PDF-1.4
+%%EOF
+
+5 0 obj
+<<
+  /Type Catalog
+  /Pages 3 0 R
+>>
+endobj
+
+3 0 obj
+<<
+  /Type Pages
+  /Kids [ 4 0 R ]
+  /Count 1
+>>
+endobj
+
+4 0 obj
+<<
+  /Type Page
+  /Parent 3 0 R
+  /MediaBox [0 0 100 200]
+  /Contents 2 0 R
+>>
+endobj
+
+1 0 obj
+<<
+  /Type Font
+  /Subtype /Type1
+  /Name /1
+  /BaseFont /Times-Roman
+>>
+endobj
+
+2 0 obj
+<<
+  /Lenght 46
+>>
+stream
+BT
+  /F1 18 Tf
+  0 0 Td
+  (Hello World!) Tj
+ET
+endstream
+endobj
+
+trailer
+<<
+  /Size 5
+  /Root 5 0 R
+>>
+%%EOF

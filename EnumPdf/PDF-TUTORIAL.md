@@ -1,5 +1,8 @@
 # Usefull documentation
 https://www.oreilly.com/library/view/developing-with-pdf/9781449327903/ch01.html
+https://blog.didierstevens.com/2008/05/19/pdf-stream-objects/
+https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdfs/PDF32000_2008.pdf
+
 
 # Basic Objects
 
@@ -123,3 +126,27 @@ endobj
 1234567890
 endobj
 ```
+
+# Text
+
+# Text State Parameters
+see Table 104 
+
+## Text Object Operators
+see Table 107
+`BT` - Begin a text object
+`ET` - End a text object
+
+## Text positioning Operators
+see Table 108
+`Td` - Used for text positioning in a format `100 10 Td`
+`Tm` -  Used for text positioning in a format `1 0 0 1 260 600 Tm`
+
+## Text showing operators
+`Tj` - Show a text string
+
+# Font types
+see Table 110 of PDF doc
+
+Most relevant `Type1` uses type 1 dont technology
+

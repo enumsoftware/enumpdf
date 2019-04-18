@@ -17,6 +17,14 @@ namespace EnumPdf.Models
     public int Width { get; set; }
     public int Height { get; set; }
 
+    public MediaBox(int x, int y, int width, int height)
+    {
+      X = X;
+      Y = y;
+      Width = width;
+      Height = height;
+    }
+
     public override string ToString()
     {
       return $"[{X} {Y} {Width} {Height}]";

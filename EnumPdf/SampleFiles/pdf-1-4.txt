@@ -1,8 +1,3 @@
-# Example PDF
-
-PDF has 4 sections: the header, trailer, body, and cross-reference table:
-
-```
 %PDF-1.4
 %%EOF
 

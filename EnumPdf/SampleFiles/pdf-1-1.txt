@@ -1,11 +1,11 @@
-%PDF-1.3
-
+%PDF-1.1 
+ 
 1 0 obj
   << /Type /Catalog
      /Pages 2 0 R
   >>
 endobj
-
+ 
 2 0 obj
   << /Type /Pages
      /Count 1
@@ -13,7 +13,7 @@ endobj
      /Kids [3 0 R]
   >>
 endobj
-
+ 
 3 0 obj
   << /Type /Page
      /Resources
@@ -29,20 +29,20 @@ endobj
      /Parent 2 0 R
   >>
 endobj
-
+ 
 4 0 obj
   <<      /Length 11
   >>
 stream 
-BT 
+ BT 
   /F1 18 Tf 
-  10 50 Td
-  (Hello World) Tj
+ 10 50 Td
+ (Hello World) Tj
 ET
 endstream
-      
+ 
 endobj
-
+ 
 trailer
   << /Root 1 0 R
    /Size 5
