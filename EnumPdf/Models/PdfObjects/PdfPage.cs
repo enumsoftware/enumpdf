@@ -12,8 +12,7 @@ namespace EnumPdf.Models
     {
       Dictionary.Add("Parent", parent.PdfReference());
       Dictionary.Add("MediaBox", mediaBox);
-      Dictionary.Add("Resources", "3 0 R");
-      // Dictionary.Add("Resources", "REFERENCE");
+      Dictionary.Add("Resources", "<< >>");
     }
 
     public void AddContent(PdfObject pdfObject)

@@ -6,7 +6,7 @@ namespace EnumPdf.Models
 {
   public class Pdf
   {
-    public string Version { get; set; } = "1.4";
+    public string Version { get; set; } = "1.7";
     public List<PdfObject> PdfObjects { get; set; } = new List<PdfObject>();
     public Pdf(params PdfObject[] objects)
     {

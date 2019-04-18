@@ -12,7 +12,6 @@ namespace EnumPdf.Cmd
       var mediaBox = new MediaBox(0, 0, 200, 200);
       PdfFont font = new PdfFont("Times-Roman");
       PdfText text = new PdfText("Hello World!");
-      PdfTemp temp = new PdfTemp();
 
       var pages = new PdfPages();
       var page = new PdfPage(pages, mediaBox);
@@ -34,8 +33,7 @@ namespace EnumPdf.Cmd
         pages,
         page,
         font,
-        text,
-        temp);
+        text);
 
       WriteFiles(pdf);
     }
