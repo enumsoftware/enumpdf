@@ -6,7 +6,6 @@ using System.Text;
 
 namespace EnumPdf.Models
 {
-
   // MediaBox
   // There are 4 types of boxes
   // https://www.prepressure.com/pdf/basics/page-boxes 
@@ -30,12 +29,15 @@ namespace EnumPdf.Models
       // Format
       //0000000000 65535 f
       int i = 0;
+
+      sb.Append($"0000000000 65535 f\n");
+
       PdfObjects.ForEach(obj =>
       {
         var bytes = ReadBytes(this.Pdf, obj.CrossSectionReference());
         var byteOffset = bytes.ToString().PadLeft(10, '0');
-        var generationNumber = i == 0 ? 65535.ToString() : "00000";
-        var flags = i == 0 ? "f" : "n"; // f or n free or in use
+        var generationNumber = "00000";
+        var flags = "n"; // f or n free or in use
 
         sb.Append($"{byteOffset} {generationNumber} {flags}\n");
         i++;

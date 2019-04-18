@@ -23,7 +23,7 @@ namespace EnumPdf.Models
     public PdfObject(string type) : this()
     {
       this.Type = type;
-      this.Dictionary.Add("Type", type);
+      this.Dictionary.Add("Type", $"/{type}");
     }
 
     // Reference in format of 5 0 R
@@ -64,12 +64,11 @@ namespace EnumPdf.Models
 
     public virtual StringBuilder BuildObject()
     {
-      var TWO_SPACES = "  ";
       StringBuilder sb = new StringBuilder();
       sb.Append("<<\n");
       Dictionary.ToList().ForEach(keyValue =>
       {
-        sb.Append(TWO_SPACES).Append($"/{keyValue.Key} {keyValue.Value.ToString()}\n");
+        sb.Append(" ").Append($"/{keyValue.Key} {keyValue.Value.ToString()}\n");
       });
       sb.Append(">>");
 
