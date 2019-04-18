@@ -10,9 +10,8 @@ namespace EnumPdf.Models
   {
     public int ObjectNumber { get; }
     static int count = 1;
-
+    public string Stream { get; set; }
     private string Type { get; set; }
-    private string Stream { get; set; }
     private int Generation { get; set; } = 0;
     public Dictionary<string, object> Dictionary { get; set; } = new Dictionary<string, object>();
 
@@ -31,6 +30,11 @@ namespace EnumPdf.Models
     public string PdfReference()
     {
       return $"{ObjectNumber} {Generation} R";
+    }
+
+    public string CrossSectionReference()
+    {
+      return $"{ObjectNumber} {Generation} obj";
     }
 
     public void AddTextStream(string font, int fontSize, int xPos, int yPos, string text)

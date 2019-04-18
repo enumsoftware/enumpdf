@@ -12,7 +12,7 @@ namespace EnumPdf.Models
     public PdfText(string text)
     {
       this.Text = text;
-      this.AddTextStream("F1", 18, 0, 0, this.Text); // Table 5 PDF spec entries common to all stream dictionaries
+      this.AddTextStream("F1", 18, 10, 50, this.Text); // Table 5 PDF spec entries common to all stream dictionaries
     }
   }
 }

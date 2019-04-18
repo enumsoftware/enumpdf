@@ -9,7 +9,7 @@ namespace EnumPdf.Cmd
   {
     static void Main(string[] args)
     {
-      var mediaBox = new MediaBox(0, 0, 100, 200);
+      var mediaBox = new MediaBox(0, 0, 200, 200);
       PdfFont font = new PdfFont("Times-Roman");
       PdfText text = new PdfText("Hello World!");
 

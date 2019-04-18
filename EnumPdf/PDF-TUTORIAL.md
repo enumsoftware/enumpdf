@@ -1,8 +1,9 @@
 # Usefull documentation
-https://www.oreilly.com/library/view/developing-with-pdf/9781449327903/ch01.html
-https://blog.didierstevens.com/2008/05/19/pdf-stream-objects/
-https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdfs/PDF32000_2008.pdf
-
+1. https://www.oreilly.com/library/view/developing-with-pdf/9781449327903/ch01.html
+2. https://blog.didierstevens.com/2008/05/19/pdf-stream-objects/
+3. https://www.adobe.com/content/dam/acom/en/devnet/pdf/pdfs/PDF32000_2008.pdf
+4. Images - https://learning.oreilly.com/library/view/developing-with-pdf/9781449327903/ch03.html
+5. https://www.pdfscripting.com/public/PDF-Page-Coordinates.cfm 
 
 # Basic Objects
 

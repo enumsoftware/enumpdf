@@ -19,10 +19,7 @@ namespace EnumPdf.Models
       StringBuilder pdfObject = new StringBuilder();
       pdfObject
         .Append("trailer\n")
-        .Append($"{BuildObject()}\n")
-        //.Append($"startxref\n")
-        //.Append("") // Byte offset of last cross reference section 7.5.5 PDF doc section - Start of file to first xref
-        .Append("%%EOF");
+        .Append($"{BuildObject()}\n");
 
       return pdfObject;
     }

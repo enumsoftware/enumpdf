@@ -15,17 +15,29 @@ namespace EnumPdf.Models
 
     public string Build()
     {
-      PdfTrailer trailer = new PdfTrailer(PdfObjects[0], PdfObjects.Count);
-      PdfObjects.Add(trailer);
-
-      StringBuilder pdf = new StringBuilder();
-      pdf.Append($"%PDF-{Version}\n%%EOF\n\n");
+      StringBuilder sb = new StringBuilder();
+      sb.Append($"%PDF-{Version}\n%%EOF\n\n");
 
       foreach (PdfObject pdfObject in PdfObjects)
       {
-        pdf.Append(pdfObject.Build());
+        sb.Append(pdfObject.Build());
+        // maybe calculate bytes here and add it to xref table
       }
-      return pdf.ToString();
+
+      var untilXRef = sb.ToString(); // Temp pdf so that we can calculate Reference table
+
+      var xref = new PdfReferenceTable(untilXRef, PdfObjects);
+      sb.Append($"{xref.ToString()}");
+
+      var trailer = new PdfTrailer(PdfObjects[0], PdfObjects.Count);
+      sb.Append(trailer.Build());
+
+      // Tells pdf where to find xref table
+      sb.Append("startxref\n");
+      sb.Append($"{untilXRef.Length}\n");
+      sb.Append("%%EOF");
+
+      return sb.ToString();
     }
   }
 }
