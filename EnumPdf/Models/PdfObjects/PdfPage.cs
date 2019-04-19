@@ -8,6 +8,7 @@ namespace EnumPdf.Models
 {
   public class PdfPage : PdfObject
   {
+    public List<PdfObject> Contents { get; } = new List<PdfObject>();
     public PdfPage(PdfObject parent, MediaBox mediaBox) : base("Page")
     {
       Dictionary.Add("Parent", parent.PdfReference());
@@ -17,7 +18,21 @@ namespace EnumPdf.Models
 
     public void AddContent(PdfObject pdfObject)
     {
-      Dictionary.Add("Contents", pdfObject.PdfReference());
+      Contents.Add(pdfObject);
+      Dictionary["Contents"] = PdfArrayOfReferences();
+    }
+
+    // Maybe make this a helper
+    private string PdfArrayOfReferences()
+    {
+      StringBuilder sb = new StringBuilder();
+      sb.Append("[");
+      Contents.ForEach(page =>
+      {
+        sb.Append($" {page.PdfReference()} "); // TODO: make this work for array of kids
+      });
+      sb.Append(" ]");
+      return sb.ToString();
     }
   }
 }
