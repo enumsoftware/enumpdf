@@ -29,9 +29,9 @@ namespace EnumPdf.Models
       sb.Append("[");
       Contents.ForEach(page =>
       {
-        sb.Append($" {page.PdfReference()} "); // TODO: make this work for array of kids
+        sb.Append($" {page.PdfReference()}"); // TODO: make this work for array of kids
       });
-      sb.Append(" ]");
+      sb.Append("]");
       return sb.ToString();
     }
   }

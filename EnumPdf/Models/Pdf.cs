@@ -42,7 +42,7 @@ namespace EnumPdf.Models
       var xref = new PdfReferenceTable(untilXRef, PdfObjects);
       sb.Append($"{xref.ToString()}");
 
-      var trailer = new PdfTrailer(PdfObjects[0], PdfObjects.Count);
+      var trailer = new PdfTrailer(this.Catalog, PdfObjects.Count);
       sb.Append(trailer.Build());
 
       // Tells pdf where to find xref table
@@ -65,6 +65,18 @@ namespace EnumPdf.Models
     {
       PdfFont font = new PdfFont(ObjectNumber, "Times-Roman");
       PdfObjects.Add(font);
+      ObjectNumber++;
+
+      // 3 0 obj
+      // <<
+      // / ProcSet[/ PDF / Text]
+      // / Font <</ F1 1 0 R >>
+      //   >>
+      //   endobj
+      PdfObject procSet = new PdfObject(ObjectNumber);
+      procSet.Dictionary.Add("ProcSet", $"[/PDF/Text]");
+      procSet.Dictionary.Add("Font", $"<</F1 {font.PdfReference()}>>");
+      PdfObjects.Add(procSet);
       ObjectNumber++;
 
       PdfText textObj = new PdfText(ObjectNumber, text, x, y);
