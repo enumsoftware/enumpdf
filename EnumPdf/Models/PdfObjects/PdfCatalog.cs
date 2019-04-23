@@ -13,7 +13,7 @@ namespace EnumPdf.Models
   //     PdfObject font = new PdfObject("Font", new PdfObject("F1", fontNameObj));
   public class PdfCatalog : PdfObject
   {
-    public PdfCatalog(PdfPages pdfPages) : base("Catalog")
+    public PdfCatalog(int objectNumber, PdfPages pdfPages) : base(objectNumber,"Catalog")
     {
       Dictionary.Add("Pages", pdfPages.PdfReference());
     }

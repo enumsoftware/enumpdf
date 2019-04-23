@@ -152,3 +152,15 @@ see Table 110 of PDF doc
 
 Most relevant `Type1` uses type 1 dont technology
 
+# Encoding Decoding Algorithms
+
+1. ASCIIHexDecode
+1. ASCII85Decode
+1. LZWDecode
+1. FlateDecode
+1. RunLengthDecode
+1. CCITTFaxDecode
+1. JBIG2Decode
+1. DCTDecode
+1. JPXDecode
+1. Crypt

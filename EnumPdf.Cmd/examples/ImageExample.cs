@@ -8,37 +8,29 @@
 
 // namespace EnumPdf.Cmd.Examples
 // {
-//   public class MultiplePagesExample
+//   public class ImageExample
 //   {
 //     public static void Create()
 //     {
 //       var mediaBox = new MediaBox(0, 0, 200, 200);
-
 //       PdfFont font = new PdfFont("Times-Roman");
-//       PdfText text1 = new PdfText("Page1", 10, 50);
-//       PdfText text2 = new PdfText("Page2", 10, 50);
+//       PdfImage image = new PdfImage("images/image.jpg", 100, 100, 40, 40);
 
 //       var pages = new PdfPages();
-//       var page1 = new PdfPage(pages, mediaBox);
-//       page1.AddContent(text1);
-//       pages.AddPage(page1);
-
-//       var page2 = new PdfPage(pages, mediaBox);
-//       page2.AddContent(text2);
-//       pages.AddPage(page2);
+//       var page = new PdfPage(pages, mediaBox);
+//       page.AddContent(image);
+//       pages.AddPage(page);
 
 //       PdfCatalog catalog = new PdfCatalog(pages);
 
 //       Pdf pdf = new Pdf(
 //         catalog,
 //         pages,
-//         page1,
-//         page2,
+//         page,
 //         font,
-//         text1,
-//         text2);
+//         image);
 
-//       Helpers.WriteFiles(pdf, nameof(MultiplePagesExample));
+//       Helpers.WriteFiles(pdf, nameof(ImageExample));
 //     }
 //   }
 // }

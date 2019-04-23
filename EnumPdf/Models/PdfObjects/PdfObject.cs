@@ -9,7 +9,6 @@ namespace EnumPdf.Models
   public class PdfObject
   {
     public int ObjectNumber { get; }
-    static int count = 1;
     public string Stream { get; set; }
     private string Type { get; set; }
     private int Generation { get; set; } = 0;
@@ -17,10 +16,14 @@ namespace EnumPdf.Models
 
     public PdfObject()
     {
-      ObjectNumber = count++;
+    }
+    
+    public PdfObject(int objectNumber)
+    {
+      ObjectNumber = objectNumber;
     }
 
-    public PdfObject(string type) : this()
+    public PdfObject(int objectNumber, string type) : this(objectNumber)
     {
       this.Type = type;
       this.Dictionary.Add("Type", $"/{type}");

@@ -8,9 +8,22 @@ namespace EnumPdf.Models
   {
     public string Version { get; set; } = "1.7";
     public List<PdfObject> PdfObjects { get; set; } = new List<PdfObject>();
-    public Pdf(params PdfObject[] objects)
+    public PdfPages Pages { get; set; }
+    public PdfCatalog Catalog { get; set; }
+    public PdfPage CurrentPage { get; set; }
+    public int ObjectNumber { get; set; } = 1;
+
+    public Pdf(MediaBox mediaBox)
     {
-      PdfObjects.AddRange(objects);
+      Pages = new PdfPages(ObjectNumber); // Move to function
+      PdfObjects.Add(Pages);
+      ObjectNumber++;
+
+      Catalog = new PdfCatalog(ObjectNumber, this.Pages); // Move to function
+      PdfObjects.Add(Catalog);
+      ObjectNumber++;
+
+      this.AddPage(mediaBox);
     }
 
     public string Build()
@@ -38,6 +51,32 @@ namespace EnumPdf.Models
       sb.Append("%%EOF");
 
       return sb.ToString();
+    }
+
+    public void AddPage(MediaBox mediaBox)
+    {
+      CurrentPage = new PdfPage(ObjectNumber, Pages, mediaBox);
+      Pages.AddPage(CurrentPage);
+      PdfObjects.Add(CurrentPage);
+      ObjectNumber++;
+    }
+
+    public void AddText(string text, int x, int y)
+    {
+      PdfFont font = new PdfFont(ObjectNumber, "Times-Roman");
+      PdfObjects.Add(font);
+      ObjectNumber++;
+
+      PdfText textObj = new PdfText(ObjectNumber, text, x, y);
+      CurrentPage.AddContent(textObj);
+      PdfObjects.Add(textObj);
+      ObjectNumber++;
+    }
+
+    public void AddImage()
+    {
+      // TODO: add image support
+      ObjectNumber++;
     }
   }
 }

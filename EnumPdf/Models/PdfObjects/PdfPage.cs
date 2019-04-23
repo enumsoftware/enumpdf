@@ -9,7 +9,7 @@ namespace EnumPdf.Models
   public class PdfPage : PdfObject
   {
     public List<PdfObject> Contents { get; } = new List<PdfObject>();
-    public PdfPage(PdfObject parent, MediaBox mediaBox) : base("Page")
+    public PdfPage(int objectNumber, PdfObject parent, MediaBox mediaBox) : base(objectNumber, "Page")
     {
       Dictionary.Add("Parent", parent.PdfReference());
       Dictionary.Add("MediaBox", mediaBox);

@@ -13,22 +13,8 @@ namespace EnumPdf.Cmd.Examples
     public static void Create()
     {
       var mediaBox = new MediaBox(0, 0, 200, 200);
-      PdfFont font = new PdfFont("Times-Roman");
-      PdfText text = new PdfText("Hello World!", 10, 50);
-
-      var pages = new PdfPages();
-      var page = new PdfPage(pages, mediaBox);
-      page.AddContent(text);
-      pages.AddPage(page);
-
-      PdfCatalog catalog = new PdfCatalog(pages);
-
-      Pdf pdf = new Pdf(
-        catalog,
-        pages,
-        page,
-        font,
-        text);
+      Pdf pdf = new Pdf(mediaBox);
+      pdf.AddText("Hello World!", 10, 50);
 
       Helpers.WriteFiles(pdf, nameof(BasicExample));
     }

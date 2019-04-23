@@ -15,7 +15,7 @@ namespace EnumPdf.Models
     const string Count = "Count";
 
     public List<PdfPage> Pages { get; } = new List<PdfPage>();
-    public PdfPages() : base("Pages")
+    public PdfPages(int objectNumber) : base(objectNumber,"Pages")
     {
       Dictionary.Add(Kids, null);
       Dictionary.Add(Count, null);
