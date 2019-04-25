@@ -8,7 +8,7 @@ namespace EnumPdf.Models
 {
   public class PdfObject
   {
-    public int ObjectNumber { get; }
+    public int ObjectNumber { get; protected set; }
     public string Stream { get; set; }
     private string Type { get; set; }
     private int Generation { get; set; } = 0;

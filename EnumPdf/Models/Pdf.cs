@@ -1,4 +1,5 @@
 
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,15 +7,21 @@ namespace EnumPdf.Models
 {
   public class Pdf
   {
-    public string Version { get; set; } = "1.7";
-    public List<PdfObject> PdfObjects { get; set; } = new List<PdfObject>();
-    public PdfPages Pages { get; set; }
-    public PdfCatalog Catalog { get; set; }
-    public PdfPage CurrentPage { get; set; }
     public int ObjectNumber { get; set; } = 1;
+    public string Version { get; private set; }
 
-    public Pdf(MediaBox mediaBox)
+    public List<PdfObject> PdfObjects { get; private set; } = new List<PdfObject>();
+    public PdfPages Pages { get; private set; }
+    public PdfCatalog Catalog { get; private set; }
+    public PdfPage CurrentPage { get; private set; }
+    public PdfMetadata PdfMetadata { get; private set; }
+
+    private bool metadataProvided;
+
+    public Pdf(MediaBox mediaBox, string version = "1.7")
     {
+      Version = version;
+
       Pages = new PdfPages(ObjectNumber); // Move to function
       PdfObjects.Add(Pages);
       ObjectNumber++;
@@ -28,6 +35,19 @@ namespace EnumPdf.Models
 
     public string Build()
     {
+      if (!metadataProvided)
+      {
+        // TODO: think of how to populate default pdf metadata
+        AddMetadata(new PdfMetadata(
+               "EnumPdf",
+               "EnumPdf",
+               "EnumPdf",
+               "EnumPdf",
+               "EnumPdf",
+               DateTime.Now,
+               DateTime.Now));
+      }
+
       StringBuilder sb = new StringBuilder();
       sb.Append($"%PDF-{Version}\n%%EOF\n\n");
 
@@ -67,15 +87,9 @@ namespace EnumPdf.Models
       PdfObjects.Add(font);
       ObjectNumber++;
 
-      // 3 0 obj
-      // <<
-      // / ProcSet[/ PDF / Text]
-      // / Font <</ F1 1 0 R >>
-      //   >>
-      //   endobj
       PdfObject procSet = new PdfObject(ObjectNumber);
       procSet.Dictionary.Add("ProcSet", $"[/PDF/Text]");
-      procSet.Dictionary.Add("Font", $"<</F1 {font.PdfReference()}>>");
+      procSet.Dictionary.Add("Font", $"<<{font.Name} {font.PdfReference()}>>");
       PdfObjects.Add(procSet);
       ObjectNumber++;
 
@@ -89,6 +103,14 @@ namespace EnumPdf.Models
     {
       // TODO: add image support
       ObjectNumber++;
+    }
+
+    public void AddMetadata(PdfMetadata pdfMetadata)
+    {
+      pdfMetadata.UpdateObjectNumber(ObjectNumber);
+      PdfObjects.Add(pdfMetadata);
+      ObjectNumber++;
+      metadataProvided = true;
     }
   }
 }

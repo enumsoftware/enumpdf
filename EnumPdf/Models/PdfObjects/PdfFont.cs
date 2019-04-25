@@ -8,7 +8,14 @@ namespace EnumPdf.Models
 {
   public class PdfFont : PdfObject
   {
-    public PdfFont(int objectNumber, string fontName) : base(objectNumber,"Font")
+    public string Name
+    {
+      get
+      {
+        return (string)Dictionary["Name"];
+      }
+    }
+    public PdfFont(int objectNumber, string fontName) : base(objectNumber, "Font")
     {
       Dictionary.Add("Subtype", "/Type1");
       Dictionary.Add("Name", $"/F1"); // /name must be unique

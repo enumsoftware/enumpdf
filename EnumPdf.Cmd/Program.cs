@@ -10,10 +10,12 @@ namespace EnumPdf.Cmd
   {
     static void Main(string[] args)
     {
-      BasicExample.Create();
+      // BasicExample.Create();
       // MultiplePagesExample.Create();
       // MultipleTextObjectsExample.Create();
       // ImageExample.Create();
+
+      MetadataExample.Create();
     }
   }
 }
