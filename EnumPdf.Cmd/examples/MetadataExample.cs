@@ -12,17 +12,18 @@ namespace EnumPdf.Cmd.Examples
   {
     public static void Create()
     {
-      var mediaBox = new MediaBox(0, 0, 200, 200);
-      Pdf pdf = new Pdf(mediaBox);
-      pdf.AddText("Hello World!", 10, 50);
-      pdf.AddMetadata(new PdfMetadata(
+      var metadata = new PdfMetadata(
         "Title",
         "Author",
         "Subject",
         "Keywords, One, Two",
         "Creator",
         DateTime.Now,
-        DateTime.Now));
+        DateTime.Now);
+
+      var mediaBox = new MediaBox(0, 0, 200, 200);
+      Pdf pdf = new Pdf(mediaBox, pdfMetadata: metadata);
+      pdf.AddText("Hello World!", 10, 50);
 
       Helpers.WriteFiles(pdf, nameof(MetadataExample));
     }

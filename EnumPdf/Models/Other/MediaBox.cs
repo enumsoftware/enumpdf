@@ -12,12 +12,12 @@ namespace EnumPdf.Models
   // 14.11.2 Page Boundaries in PDF manual
   public class MediaBox
   {
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
+    public float X { get; set; }
+    public float Y { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
 
-    public MediaBox(int x, int y, int width, int height)
+    public MediaBox(float x, float y, float width, float height)
     {
       X = X;
       Y = y;
@@ -27,7 +27,7 @@ namespace EnumPdf.Models
 
     public override string ToString()
     {
-      return $"[{X} {Y} {Width} {Height}]";
+      return $"[ {X} {Y} {Width} {Height} ]";
     }
   }
 }

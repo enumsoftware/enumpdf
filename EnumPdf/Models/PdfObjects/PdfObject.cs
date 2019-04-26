@@ -45,7 +45,7 @@ namespace EnumPdf.Models
       var streamContent = $"BT\n /{font} {fontSize} Tf\n {xPos} {yPos} Td\n ({text}) Tj\nET";
       this.Stream = $"\nstream\n{streamContent}\nendstream";
       var length = Encoding.ASCII.GetByteCount(streamContent);
-      Dictionary.Add("Lenght", length);
+      Dictionary.Add("Length", length);
     }
 
 

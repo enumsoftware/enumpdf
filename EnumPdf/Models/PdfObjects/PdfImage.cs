@@ -18,7 +18,7 @@ namespace EnumPdf.Models
     public int Width { get; set; }
     public int Height { get; set; }
 
-    public PdfImage(int objectNumber, string fileName, int x, int y, int width, int height) : base(objectNumber,"XObject")
+    public PdfImage(int objectNumber, string fileName, int width, int height) : base(objectNumber,"XObject")
     {
       this.FileName = fileName;
 
@@ -26,7 +26,7 @@ namespace EnumPdf.Models
       Dictionary["Height"] = height;
       Dictionary["Width"] = width;
       Dictionary["ColorSpace"] = "/DeviceRGB";
-      Dictionary["BitsPerComponent"] = 24;
+      Dictionary["BitsPerComponent"] = 8;
       Dictionary["Filter"] = "/DCTDecode";
 
       this.AddImageStream();
@@ -36,7 +36,7 @@ namespace EnumPdf.Models
     {
       var bytes = File.ReadAllBytes(this.FileName);
       Dictionary["Length"] = bytes.Length;
-      var str = Encoding.ASCII.GetString(bytes);
+      var str = Encoding.Default.GetString(bytes);
       this.Stream = $"\nstream\n{str}\nendstream";
     }
 

@@ -18,15 +18,15 @@ namespace EnumPdf.Cmd
       var txtStream = File.CreateText($"pdf/{filename}.txt");
       var stream = File.Create($"pdf/{filename}.pdf");
       var pdfString = pdf.Build();
-      var bytes = Encoding.ASCII.GetBytes(pdfString);
-      var count = Encoding.ASCII.GetByteCount(pdfString);
+      var bytes = Encoding.Default.GetBytes(pdfString);
+      var count = Encoding.Default.GetByteCount(pdfString);
 
       var bla = pdfString.Split("\n");
-      foreach (var line in bla)
-      {
-        txtStream.WriteLine(line);
-      }
-      txtStream.Flush();
+      // foreach (var line in bla)
+      // {
+      //   txtStream.WriteLine(line);
+      // }
+      // txtStream.Flush();
 
       stream.Write(bytes, 0, count);
       stream.Flush();

@@ -8,10 +8,11 @@ namespace EnumPdf.Models
 {
   public class PdfTrailer : PdfObject
   {
-    public PdfTrailer(PdfObject rootObj, int size)
+    public PdfTrailer(PdfObject rootObj, int size, PdfMetadata metadata)
     {
       Dictionary.Add("Size", size);
       Dictionary.Add("Root", rootObj.PdfReference());
+      Dictionary.Add("Info", metadata.PdfReference());
     }
 
     public override StringBuilder Build()

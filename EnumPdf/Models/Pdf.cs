@@ -15,10 +15,27 @@ namespace EnumPdf.Models
     public PdfCatalog Catalog { get; private set; }
     public PdfPage CurrentPage { get; private set; }
     public PdfMetadata PdfMetadata { get; private set; }
+    public PdfMetadata PdfMetadataDefaultValue
+    {
+      get
+      {
+        return new PdfMetadata(
+          "EnumPdf",
+          "EnumPdf",
+          "EnumPdf",
+          "EnumPdf",
+          "EnumPdf",
+          DateTime.Now,
+          DateTime.Now);
+      }
+    }
 
-    private bool metadataProvided;
+    public MediaBox MediaBoxDefaultValue
+    {
+      get { return new MediaBox(0, 0, 595.28f, 841.89f); }
+    }
 
-    public Pdf(MediaBox mediaBox, string version = "1.7")
+    public Pdf(MediaBox mediaBox = null, string version = "1.7", PageLayout pageLayout = PageLayout.SinglePage, PdfMetadata pdfMetadata = null)
     {
       Version = version;
 
@@ -26,7 +43,7 @@ namespace EnumPdf.Models
       PdfObjects.Add(Pages);
       ObjectNumber++;
 
-      Catalog = new PdfCatalog(ObjectNumber, this.Pages); // Move to function
+      Catalog = new PdfCatalog(ObjectNumber, this.Pages, pageLayout); // Move to function
       PdfObjects.Add(Catalog);
       ObjectNumber++;
 
@@ -35,18 +52,8 @@ namespace EnumPdf.Models
 
     public string Build()
     {
-      if (!metadataProvided)
-      {
-        // TODO: think of how to populate default pdf metadata
-        AddMetadata(new PdfMetadata(
-               "EnumPdf",
-               "EnumPdf",
-               "EnumPdf",
-               "EnumPdf",
-               "EnumPdf",
-               DateTime.Now,
-               DateTime.Now));
-      }
+      PdfMetadata = ValueOrDefault(PdfMetadata, PdfMetadataDefaultValue);
+      AddMetadata(PdfMetadata);
 
       StringBuilder sb = new StringBuilder();
       sb.Append($"%PDF-{Version}\n%%EOF\n\n");
@@ -54,15 +61,14 @@ namespace EnumPdf.Models
       foreach (PdfObject pdfObject in PdfObjects)
       {
         sb.Append(pdfObject.Build());
-        // maybe calculate bytes here and add it to xref table
       }
 
-      var untilXRef = sb.ToString(); // Temp pdf so that we can calculate Reference table
+      var untilXRef = sb.ToString(); // Temp pdf so that we can calculate position to Reference table
 
       var xref = new PdfReferenceTable(untilXRef, PdfObjects);
       sb.Append($"{xref.ToString()}");
 
-      var trailer = new PdfTrailer(this.Catalog, PdfObjects.Count);
+      var trailer = new PdfTrailer(this.Catalog, PdfObjects.Count, PdfMetadata);
       sb.Append(trailer.Build());
 
       // Tells pdf where to find xref table
@@ -73,8 +79,9 @@ namespace EnumPdf.Models
       return sb.ToString();
     }
 
-    public void AddPage(MediaBox mediaBox)
+    public void AddPage(MediaBox mediaBox = null)
     {
+      mediaBox = ValueOrDefault<MediaBox>(mediaBox, MediaBoxDefaultValue);
       CurrentPage = new PdfPage(ObjectNumber, Pages, mediaBox);
       Pages.AddPage(CurrentPage);
       PdfObjects.Add(CurrentPage);
@@ -88,8 +95,8 @@ namespace EnumPdf.Models
       ObjectNumber++;
 
       PdfObject procSet = new PdfObject(ObjectNumber);
-      procSet.Dictionary.Add("ProcSet", $"[/PDF/Text]");
-      procSet.Dictionary.Add("Font", $"<<{font.Name} {font.PdfReference()}>>");
+      procSet.Dictionary.Add("ProcSet", $"[/PDF /Text]");
+      procSet.Dictionary.Add("Font", $"<< {font.Name} {font.PdfReference()} >>");
       PdfObjects.Add(procSet);
       ObjectNumber++;
 
@@ -99,18 +106,39 @@ namespace EnumPdf.Models
       ObjectNumber++;
     }
 
-    public void AddImage()
+    public void AddImage(string fileName, int x, int y, int width, int height)
     {
       // TODO: add image support
+      PdfImage image = new PdfImage(ObjectNumber, fileName, width, height);
+      PdfObjects.Add(image);
+      ObjectNumber++;
+
+      PdfObject procSet = new PdfObject(ObjectNumber);
+      procSet.Dictionary.Add("ProcSet", $"[/PDF /ImageC]");
+      procSet.Dictionary.Add("XObject", $"<< /I0 {image.PdfReference()} >>");
+      PdfObjects.Add(procSet);
+      ObjectNumber++;
+
+      PdfImageTransform pdfImageTransform = new PdfImageTransform(ObjectNumber, fileName);
+      CurrentPage.AddResources(procSet);
+      CurrentPage.AddContent(pdfImageTransform);
+      PdfObjects.Add(pdfImageTransform);
+      ObjectNumber++;
+
       ObjectNumber++;
     }
 
-    public void AddMetadata(PdfMetadata pdfMetadata)
+    private void AddMetadata(PdfMetadata pdfMetadata)
     {
+      PdfMetadata = pdfMetadata;
       pdfMetadata.UpdateObjectNumber(ObjectNumber);
       PdfObjects.Add(pdfMetadata);
       ObjectNumber++;
-      metadataProvided = true;
+    }
+
+    public T ValueOrDefault<T>(object currentValue, T defaultValue)
+    {
+      return currentValue == null ? defaultValue : default(T);
     }
   }
 }

@@ -19,7 +19,13 @@ namespace EnumPdf.Models
     public void AddContent(PdfObject pdfObject)
     {
       Contents.Add(pdfObject);
-      Dictionary["Contents"] = PdfArrayOfReferences();
+      // Dictionary["Contents"] = PdfArrayOfReferences();
+      Dictionary["Contents"] = pdfObject.PdfReference();
+    }
+
+    public void AddResources(PdfObject pdfObject)
+    {
+      Dictionary["Resources"] = pdfObject.PdfReference();
     }
 
     // Maybe make this a helper
