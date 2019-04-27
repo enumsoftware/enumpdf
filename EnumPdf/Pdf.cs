@@ -110,7 +110,7 @@ namespace EnumPdf
       PdfObjects.Add(procSet);
       ObjectNumber++;
 
-      PdfText textObj = new PdfText(ObjectNumber, text, x, y);
+      PdfText textObj = new PdfText(ObjectNumber, text, x, y, CurrentPage.MediaBox);
       CurrentPage.AddContent(textObj);
       PdfObjects.Add(textObj);
       ObjectNumber++;

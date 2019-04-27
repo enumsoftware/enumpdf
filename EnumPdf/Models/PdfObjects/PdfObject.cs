@@ -17,7 +17,7 @@ namespace EnumPdf.Models
     public PdfObject()
     {
     }
-    
+
     public PdfObject(int objectNumber)
     {
       ObjectNumber = objectNumber;
@@ -42,15 +42,6 @@ namespace EnumPdf.Models
     {
       return $"{ObjectNumber} {Generation} obj";
     }
-
-    public void AddTextStream(string font, int fontSize, int xPos, int yPos, string text)
-    {
-      var streamContent = $"BT\n /{font} {fontSize} Tf\n {xPos} {yPos} Td\n ({text}) Tj\nET";
-      this.Stream = $"\nstream\n{streamContent}\nendstream";
-      var length = Encoding.ASCII.GetByteCount(streamContent);
-      Dictionary.Add("Length", length);
-    }
-
 
     public override string ToString()
     {
