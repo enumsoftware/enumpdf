@@ -13,8 +13,8 @@ namespace EnumPdf.Cmd.Examples
     public static void Create()
     {
       Pdf pdf = new Pdf();
-      pdf.AddImage("images/cube.jpg", 10, 50, 40, 40);
-      Helpers.WriteFiles(pdf, nameof(ImageExample));
+      pdf.AddImage("images/pixel.jpg", 1, 1, 1, 1);
+      pdf.SaveFile(nameof(ImageExample));
     }
   }
 }

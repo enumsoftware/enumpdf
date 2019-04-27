@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using ExifLib;
+using EnumPdf.Other;
+using EnumPdf.Helpers;
 
 namespace EnumPdf.Models
 {
@@ -18,7 +20,7 @@ namespace EnumPdf.Models
     public int Width { get; set; }
     public int Height { get; set; }
 
-    public PdfImage(int objectNumber, string fileName, int width, int height) : base(objectNumber,"XObject")
+    public PdfImage(int objectNumber, string fileName, int width, int height) : base(objectNumber, "XObject")
     {
       this.FileName = fileName;
 
@@ -27,7 +29,7 @@ namespace EnumPdf.Models
       Dictionary["Width"] = width;
       Dictionary["ColorSpace"] = "/DeviceRGB";
       Dictionary["BitsPerComponent"] = 8;
-      Dictionary["Filter"] = "/DCTDecode";
+      Dictionary["Filter"] = $"[/{Filters.ASCIIHexDecode} /{Filters.DCTDecode}]";
 
       this.AddImageStream();
     }
@@ -35,8 +37,9 @@ namespace EnumPdf.Models
     private void AddImageStream()
     {
       var bytes = File.ReadAllBytes(this.FileName);
+      var str = BitConverter.ToString(bytes).Replace("-", string.Empty);
+      //var length = PdfHelpers.Encoding.GetByteCount(str);
       Dictionary["Length"] = bytes.Length;
-      var str = Encoding.Default.GetString(bytes);
       this.Stream = $"\nstream\n{str}\nendstream";
     }
 
@@ -47,7 +50,6 @@ namespace EnumPdf.Models
       Dictionary["ColorSpace"] = ReadTag<string>(ExifTags.ColorSpace);
       Dictionary["BitsPerComponent"] = ReadTag<int>(ExifTags.BitsPerSample);
       Dictionary["Length"] = ReadTag<int>(ExifTags.ImageLength);
-      Dictionary["Filter"] = "/DCTDecode";
     }
 
     private T ReadTag<T>(ExifTags tag)

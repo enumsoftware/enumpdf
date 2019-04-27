@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace EnumPdf.Models
+namespace EnumPdf.Other
 {
   // MediaBox
   // There are 4 types of boxes

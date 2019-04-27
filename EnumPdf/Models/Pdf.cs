@@ -1,7 +1,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using EnumPdf.Helpers;
+using EnumPdf.Other;
 
 namespace EnumPdf.Models
 {
@@ -56,24 +59,26 @@ namespace EnumPdf.Models
       AddMetadata(PdfMetadata);
 
       StringBuilder sb = new StringBuilder();
-      sb.Append($"%PDF-{Version}\n%%EOF\n\n");
+      sb.Append($"%PDF-{Version}\n");
+      sb.Append(BinaryComment());
 
       foreach (PdfObject pdfObject in PdfObjects)
       {
         sb.Append(pdfObject.Build());
       }
 
-      var untilXRef = sb.ToString(); // Temp pdf so that we can calculate position to Reference table
+      var pdfFileUpUntilXref = sb.ToString(); // Temp pdf so that we can calculate position to Reference table
 
-      var xref = new PdfReferenceTable(untilXRef, PdfObjects);
+      var xref = new PdfReferenceTable(pdfFileUpUntilXref, PdfObjects);
+      var xrefPosition = PdfHelpers.Encoding.GetByteCount(pdfFileUpUntilXref);
       sb.Append($"{xref.ToString()}");
 
-      var trailer = new PdfTrailer(this.Catalog, PdfObjects.Count, PdfMetadata);
+      var trailer = new PdfTrailer(this.Catalog, PdfObjects.Count + 1, PdfMetadata);
       sb.Append(trailer.Build());
 
       // Tells pdf where to find xref table
       sb.Append("startxref\n");
-      sb.Append($"{untilXRef.Length}\n");
+      sb.Append($"{xrefPosition}\n");
       sb.Append("%%EOF");
 
       return sb.ToString();
@@ -108,24 +113,28 @@ namespace EnumPdf.Models
 
     public void AddImage(string fileName, int x, int y, int width, int height)
     {
+      PdfFont font = new PdfFont(ObjectNumber, "Times-Roman");
+      PdfObjects.Add(font);
+      ObjectNumber++;
+
       // TODO: add image support
       PdfImage image = new PdfImage(ObjectNumber, fileName, width, height);
       PdfObjects.Add(image);
       ObjectNumber++;
 
       PdfObject procSet = new PdfObject(ObjectNumber);
-      procSet.Dictionary.Add("ProcSet", $"[/PDF /ImageC]");
+      procSet.Dictionary.Add("ProcSet", $"[/PDF /Text /ImageB /ImageC /ImageI]");
+      procSet.Dictionary.Add("Font", $"<< {font.Name} {font.PdfReference()} >>");
       procSet.Dictionary.Add("XObject", $"<< /I0 {image.PdfReference()} >>");
       PdfObjects.Add(procSet);
       ObjectNumber++;
 
       PdfImageTransform pdfImageTransform = new PdfImageTransform(ObjectNumber, fileName);
-      CurrentPage.AddResources(procSet);
-      CurrentPage.AddContent(pdfImageTransform);
       PdfObjects.Add(pdfImageTransform);
       ObjectNumber++;
 
-      ObjectNumber++;
+      CurrentPage.AddResources(procSet);
+      CurrentPage.AddContent(pdfImageTransform);
     }
 
     private void AddMetadata(PdfMetadata pdfMetadata)
@@ -136,9 +145,38 @@ namespace EnumPdf.Models
       ObjectNumber++;
     }
 
+    public void SaveFile(string filename)
+    {
+      var timestamp = DateTime.Now.ToString("mm-ss");
+      var stream = File.Create($"pdf/{filename}{timestamp}.pdf");
+      var pdfString = Build();
+      var bytes = PdfHelpers.Encoding.GetBytes(pdfString);
+      var count = PdfHelpers.Encoding.GetByteCount(pdfString);
+      stream.Write(bytes, 0, count);
+      stream.Flush();
+      stream.Close();
+
+      Console.WriteLine($"Done generating pdf: ({filename})");
+    }
+
     public T ValueOrDefault<T>(object currentValue, T defaultValue)
     {
       return currentValue == null ? defaultValue : default(T);
+    }
+
+    /// <summary>
+    /// The presence of encoded character byte values greater 
+    /// than decimal 127 near the beginning of a file 
+    /// is used by various software tools and protocols to 
+    /// classify the file as containing 8-bit binary 
+    /// data that should be preserved during processing.
+    /// </summary>
+    /// <returns>Binary encoded comment</returns>
+    private string BinaryComment()
+    {
+      var binaryComment = new byte[] { 255, 170, 234, 128 };
+      var binaryString = PdfHelpers.Encoding.GetString(binaryComment);
+      return $"%{binaryString}\n\n";
     }
   }
 }

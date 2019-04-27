@@ -8,11 +8,11 @@ namespace EnumPdf.Helpers
 {
   public class PdfHelpers
   {
-    public static string DateFormat
+    public static Encoding Encoding
     {
       get
       {
-        return "";
+        return System.Text.Encoding.Default;
       }
     }
   }

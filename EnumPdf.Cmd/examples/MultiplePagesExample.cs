@@ -17,7 +17,7 @@ namespace EnumPdf.Cmd.Examples
       pdf.AddPage();
       pdf.AddText("Hello World!", 10, 50);
 
-      Helpers.WriteFiles(pdf, nameof(MultiplePagesExample));
+      pdf.SaveFile(nameof(MultiplePagesExample));
     }
   }
 }

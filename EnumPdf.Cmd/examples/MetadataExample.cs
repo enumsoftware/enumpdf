@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using EnumPdf.Models;
 using EnumPdf.Cmd;
+using EnumPdf.Other;
 
 namespace EnumPdf.Cmd.Examples
 {
@@ -25,7 +26,7 @@ namespace EnumPdf.Cmd.Examples
       Pdf pdf = new Pdf(mediaBox, pdfMetadata: metadata);
       pdf.AddText("Hello World!", 10, 50);
 
-      Helpers.WriteFiles(pdf, nameof(MetadataExample));
+      pdf.SaveFile(nameof(MetadataExample));
     }
   }
 }

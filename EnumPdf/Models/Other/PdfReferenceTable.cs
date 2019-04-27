@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using EnumPdf.Helpers;
+using EnumPdf.Models;
 
-namespace EnumPdf.Models
+namespace EnumPdf.Other
 {
   // MediaBox
   // There are 4 types of boxes
@@ -24,7 +26,7 @@ namespace EnumPdf.Models
     {
       StringBuilder sb = new StringBuilder();
       sb.Append($"xref\n");
-      sb.Append($"{0} {PdfObjects.Count}\n");
+      sb.Append($"{0} {PdfObjects.Count + 1}\n");
 
       // Format
       //0000000000 65535 f
@@ -34,8 +36,8 @@ namespace EnumPdf.Models
 
       PdfObjects.ForEach(obj =>
       {
-        var bytes = ReadBytes(this.Pdf, obj.CrossSectionReference());
-        var byteOffset = bytes.ToString().PadLeft(10, '0');
+        var bytesCount = BytesCount(this.Pdf, obj.CrossSectionReference());
+        var byteOffset = bytesCount.ToString().PadLeft(10, '0');
         var generationNumber = "00000";
         var flags = "n"; // f or n free or in use
 
@@ -46,14 +48,15 @@ namespace EnumPdf.Models
     }
 
     // Reads bytes until it finds object reference
-    public static int ReadBytes(string pdf, string str)
+    public static int BytesCount(string pdf, string str)
     {
       StringBuilder sb = new StringBuilder();
       string[] lines = pdf.Split('\n');
 
       var index = pdf.IndexOf(str);
-      var sub = pdf.Substring(0, index);
-      return sub.Length;
+      var substring = pdf.Substring(0, index);
+      var length = PdfHelpers.Encoding.GetByteCount(substring);
+      return length;
     }
   }
 }

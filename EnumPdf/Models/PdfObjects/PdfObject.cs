@@ -29,7 +29,10 @@ namespace EnumPdf.Models
       this.Dictionary.Add("Type", $"/{type}");
     }
 
-    // Reference in format of 5 0 R
+    /// <summary>
+    /// Reference in format of 5 0 R
+    /// </summary>
+    /// <returns></returns>
     public string PdfReference()
     {
       return $"{ObjectNumber} {Generation} R";
@@ -60,7 +63,7 @@ namespace EnumPdf.Models
       pdfObject
         .Append($"{ObjectNumber} {Generation} obj\n")
         .Append(BuildObject())
-        .Append("\nendobj\n\n");
+        .Append("\nendobj\n");
 
       return pdfObject;
     }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using ExifLib;
+using EnumPdf.Helpers;
 
 namespace EnumPdf.Models
 {
@@ -21,8 +22,13 @@ namespace EnumPdf.Models
 
     private void AddImageStream()
     {
-      var stream = "0.57 w\n0 G\nq 113.39 0 0 113.39 42.52 615.12 cm /I0 Do Q";
-      Dictionary["Length"] = stream.Length;
+      // TABLE 4.7 Pdf Spec 1.4  4.3.3 Graphics state operators
+      // https://www.tallcomponents.com/blog/pdf-graphics-basics-and-edit 
+      // Rotation transformation matrix jsPDF example addImage.js line 364
+      
+      var stream = "0.57 w 0 G q 2.83 0 0 2.83 28.35 810.71 cm /I0 Do Q";
+      var count = PdfHelpers.Encoding.GetByteCount(stream);
+      Dictionary["Length"] = count;
       this.Stream = $"\nstream\n{stream}\nendstream";
     }
   }
