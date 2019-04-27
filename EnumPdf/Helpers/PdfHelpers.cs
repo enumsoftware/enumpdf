@@ -15,5 +15,10 @@ namespace EnumPdf.Helpers
         return System.Text.Encoding.Default;
       }
     }
+
+    public static float ScreenPosition(float value, float size)
+    {
+      return size - value;
+    }
   }
 }

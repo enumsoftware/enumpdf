@@ -15,14 +15,16 @@ namespace EnumPdf.Models
   public class PdfImage : PdfObject
   {
     public string FileName { get; set; }
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Width { get; set; }
-    public int Height { get; set; }
+    public string Name { get; set; }
+    public float X { get; set; }
+    public float Y { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
 
-    public PdfImage(int objectNumber, string fileName, int width, int height) : base(objectNumber, "XObject")
+    public PdfImage(int objectNumber, string fileName, float width, float height) : base(objectNumber, "XObject")
     {
-      this.FileName = fileName;
+      FileName = fileName;
+      Name = $"/Image{ObjectNumber}";
 
       Dictionary["Subtype"] = "/Image";
       Dictionary["Height"] = height;
@@ -31,14 +33,13 @@ namespace EnumPdf.Models
       Dictionary["BitsPerComponent"] = 8;
       Dictionary["Filter"] = $"[/{Filters.ASCIIHexDecode} /{Filters.DCTDecode}]";
 
-      this.AddImageStream();
+      AddImageStream();
     }
 
     private void AddImageStream()
     {
       var bytes = File.ReadAllBytes(this.FileName);
-      var str = BitConverter.ToString(bytes).Replace("-", string.Empty);
-      //var length = PdfHelpers.Encoding.GetByteCount(str);
+      var str = BitConverter.ToString(bytes).Replace("-", string.Empty); // Hex encoding
       Dictionary["Length"] = bytes.Length;
       this.Stream = $"\nstream\n{str}\nendstream";
     }

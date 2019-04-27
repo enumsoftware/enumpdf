@@ -13,10 +13,8 @@ namespace EnumPdf.Cmd.Examples
   {
     public static void Create()
     {
-      var mediaBox = new MediaBox(0, 0, 200, 200);
-      Pdf pdf = new Pdf(mediaBox);
+      Pdf pdf = new Pdf();
       pdf.AddText("Hello World!", 10, 50);
-
       pdf.SaveFile(nameof(BasicExample));
     }
   }

@@ -4,7 +4,7 @@
 
 # Planned 1.0
 1. Text objects (Need to support different syntaxes and try to have multiple text)
-2. Image objects 
+2. Image objects (JPG support)
 3. Pages - Done
 4. Footers and Headers (No support)
 5. PDF Size (Added - Maybe add a4 format by default)

@@ -1,11 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.1</Version>
+    <Authors>ENUM SOFTWARE</Authors>
+    <Company>ENUM SOFTWARE</Company>
+    <Description>A .NET Core, Standard 2.0 PDF creator library</Description>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>PDF, Library, NetCore, Net</PackageTags>
+    <PackageReleaseNotes>Added more NuGet details. Changed the product name to a more descriptive variant. Added Apache V2.0 license. Added CHANGELOG.md document. Updated README.md document with future work section and removed the caveat of non working partial update feature.</PackageReleaseNotes>
+    <RepositoryUrl>https://gitlab.com/enum/enum-odata-repository</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>1.4.0.0</AssemblyVersion>
+    <FileVersion>1.4.0.0</FileVersion>
+    <PackageProjectUrl>https://gitlab.com/enum/enum-odata-repository</PackageProjectUrl>
+    <Product>Enum's OData EntityFramework Generic Repository</Product>
+    <Copyright>Apache License Version 2.0</Copyright>
+    <License>https://gitlab.com/enum/enum-odata-repository/blob/master/LICENSE</License>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="ExifLib.Standard" Version="1.7.0" />
   </ItemGroup>
-
 </Project>

@@ -6,6 +6,7 @@ using System.Text;
 using System.Drawing;
 using ExifLib;
 using EnumPdf.Helpers;
+using EnumPdf.Other;
 
 namespace EnumPdf.Models
 {
@@ -13,23 +14,62 @@ namespace EnumPdf.Models
   {
     public string FileName { get; set; }
 
+    public float X { get; set; }
+    public float Y { get; set; }
+    public float Width { get; set; }
+    public float Height { get; set; }
+    public string ImageName { get; set; }
 
-    public PdfImageTransform(int objectNumber, string fileName) : base(objectNumber)
+    public PdfImageTransform(
+      int objectNumber,
+      string fileName,
+      string imageName,
+      float x,
+      float y,
+      float width,
+      float height,
+      MediaBox mediaBox) : base(objectNumber)
     {
-      this.FileName = fileName;
-      this.AddImageStream();
+      FileName = fileName;
+      ImageName = imageName;
+      Width = width;
+      Height = height;
+      X = x;
+      Y = PdfHelpers.ScreenPosition(y, mediaBox.Height);
+
+      AddImageStream();
     }
 
     private void AddImageStream()
     {
-      // TABLE 4.7 Pdf Spec 1.4  4.3.3 Graphics state operators
+      // TABLE 4.7 Pdf Spec 1.4  4.3.3 Graphics state operators 
+      // Example 4.23 1.4 Pdf Spec
       // https://www.tallcomponents.com/blog/pdf-graphics-basics-and-edit 
       // Rotation transformation matrix jsPDF example addImage.js line 364
-      
-      var stream = "0.57 w 0 G q 2.83 0 0 2.83 28.35 810.71 cm /I0 Do Q";
+
+      var translationMatrix = $"1 0 0 1 {X} {Y} cm";
+      // var rotationMatrix = "1 1 1 -1 0 0 cm";
+      var scaleMatrix = $"{Width} 0 0 {Height} 0 0 cm";
+
+      // var translationMatrix = $"1 0 0 1 100 200 cm";
+      // var rotationMatrix = "0.7 0.7 -0.7 0.7 0 0 cm";
+      // var scaleMatrix = $"40 0 0 40 0 0 cm";
+
+      var paintimage = $"{ImageName} Do";
+
+      StringBuilder sb = new StringBuilder();
+      sb.AppendLine("q");
+      sb.AppendLine(translationMatrix);
+      // sb.AppendLine(rotationMatrix); // TODO: figure out how this works
+      sb.AppendLine(scaleMatrix);
+      sb.AppendLine(paintimage);
+      sb.AppendLine("Q");
+
+      var stream = sb.ToString();
       var count = PdfHelpers.Encoding.GetByteCount(stream);
+
       Dictionary["Length"] = count;
-      this.Stream = $"\nstream\n{stream}\nendstream";
+      Stream = $"\nstream\n{stream}\nendstream";
     }
   }
 }

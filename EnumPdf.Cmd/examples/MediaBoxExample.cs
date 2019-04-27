@@ -5,17 +5,19 @@ using System.Linq;
 using System.Text;
 using EnumPdf.Models;
 using EnumPdf.Cmd;
+using EnumPdf.Other;
 
 namespace EnumPdf.Cmd.Examples
 {
-  public class ImageExample
+  public class MediaBoxExample
   {
     public static void Create()
     {
-      Pdf pdf = new Pdf();
-      pdf.AddImage("images/cube.jpg", 100, 100, 40, 40);
-      pdf.SaveFile(nameof(ImageExample));
+      var mediaBox = new MediaBox(0, 0, 200, 200);
+      Pdf pdf = new Pdf(mediaBox);
+      pdf.AddText("Hello World!", 10, 50);
+
+      pdf.SaveFile(nameof(MediaBoxExample));
     }
   }
 }
-

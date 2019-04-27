@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using EnumPdf.Helpers;
+using EnumPdf.Models;
 using EnumPdf.Other;
 
-namespace EnumPdf.Models
+namespace EnumPdf
 {
   public class Pdf
   {
@@ -23,10 +24,10 @@ namespace EnumPdf.Models
       get
       {
         return new PdfMetadata(
+          $"Document {Guid.NewGuid().ToString()}",
           "EnumPdf",
-          "EnumPdf",
-          "EnumPdf",
-          "EnumPdf",
+          "Document",
+          "Document",
           "EnumPdf",
           DateTime.Now,
           DateTime.Now);
@@ -38,7 +39,11 @@ namespace EnumPdf.Models
       get { return new MediaBox(0, 0, 595.28f, 841.89f); }
     }
 
-    public Pdf(MediaBox mediaBox = null, string version = "1.7", PageLayout pageLayout = PageLayout.SinglePage, PdfMetadata pdfMetadata = null)
+    public Pdf(
+      MediaBox mediaBox = null,
+      string version = "1.7",
+      PageLayout pageLayout = PageLayout.OneColumn,
+      PdfMetadata pdfMetadata = null)
     {
       Version = version;
 
@@ -111,7 +116,7 @@ namespace EnumPdf.Models
       ObjectNumber++;
     }
 
-    public void AddImage(string fileName, int x, int y, int width, int height)
+    public void AddImage(string fileName, float x, float y, float width, float height)
     {
       PdfFont font = new PdfFont(ObjectNumber, "Times-Roman");
       PdfObjects.Add(font);
@@ -125,11 +130,11 @@ namespace EnumPdf.Models
       PdfObject procSet = new PdfObject(ObjectNumber);
       procSet.Dictionary.Add("ProcSet", $"[/PDF /Text /ImageB /ImageC /ImageI]");
       procSet.Dictionary.Add("Font", $"<< {font.Name} {font.PdfReference()} >>");
-      procSet.Dictionary.Add("XObject", $"<< /I0 {image.PdfReference()} >>");
+      procSet.Dictionary.Add("XObject", $"<< {image.Name} {image.PdfReference()} >>");
       PdfObjects.Add(procSet);
       ObjectNumber++;
 
-      PdfImageTransform pdfImageTransform = new PdfImageTransform(ObjectNumber, fileName);
+      PdfImageTransform pdfImageTransform = new PdfImageTransform(ObjectNumber, fileName, image.Name, x, y, width, height, CurrentPage.MediaBox);
       PdfObjects.Add(pdfImageTransform);
       ObjectNumber++;
 
@@ -147,8 +152,8 @@ namespace EnumPdf.Models
 
     public void SaveFile(string filename)
     {
-      var timestamp = DateTime.Now.ToString("mm-ss");
-      var stream = File.Create($"pdf/{filename}{timestamp}.pdf");
+      var stream = File.Create($"pdf/{filename}.pdf");
+
       var pdfString = Build();
       var bytes = PdfHelpers.Encoding.GetBytes(pdfString);
       var count = PdfHelpers.Encoding.GetByteCount(pdfString);
@@ -159,9 +164,16 @@ namespace EnumPdf.Models
       Console.WriteLine($"Done generating pdf: ({filename})");
     }
 
-    public T ValueOrDefault<T>(object currentValue, T defaultValue)
+    /// <summary>
+    /// Returns specified value or if it is null returns currentValue
+    /// </summary>
+    /// <param name="currentValue"></param>
+    /// <param name="defaultValue"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public T ValueOrDefault<T>(T currentValue, T defaultValue)
     {
-      return currentValue == null ? defaultValue : default(T);
+      return currentValue == null ? defaultValue : currentValue;
     }
 
     /// <summary>
