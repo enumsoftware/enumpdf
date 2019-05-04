@@ -1,3 +1,7 @@
+# Disclaimer
+
+THIS IS NOT A PRODUCTION READY SOFTWARE!
+
 # Planned activities
 
 ## Planned 1.0
