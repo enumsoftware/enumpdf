@@ -19,4 +19,4 @@
 1. https://www.pdf-online.com/osa/validate.aspx 
 2. https://verapdf.org/software - C:\Users\dzivo\verapdf
 
-C:\dev\enum\enum\libraries\aspnetcore\enum-pdf\EnumPdf.Cmd\pdf\BasicExample.pdf
+EnumPdf.Cmd\pdf\BasicExample.pdf
