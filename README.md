@@ -16,7 +16,7 @@ THIS IS NOT A PRODUCTION READY SOFTWARE!
 
 # PDF Validator
 1. https://www.pdf-online.com/osa/validate.aspx 
-2. https://verapdf.org/software - C:\Users\dzivo\verapdf
+2. https://verapdf.org/software
 
 # Examples
 `\EnumPdf.Cmd\pdf\BasicExample.pdf`
